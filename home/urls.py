@@ -4,5 +4,6 @@ app_name = 'home'
 
 urlpatterns = [
     path('', views.IndexList.as_view(), name='index'),
-    path('list/<int:id>', views.ProductList.as_view(), name='list'),
+    path('category/<int:id>', views.ProductList.as_view(), name='list'),
+    path('<int:pk>', views.ProductDetail.as_view(), name='detail'),
 ]

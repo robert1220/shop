@@ -1,0 +1,27 @@
+{% extends 'home/layout.html' %}
+{% load static %}
+
+{% block title %}
+Coś do wstawienia
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'home/css/product_detail.css' %}">
+{% endblock %}
+
+{% block list %}
+
+        <div id="product">
+            <div id="image"><img src="{{ product.image }}"></div>
+            <div id="details">
+            <div id="title_product">{{ product.name }}</div>
+            <div id="price">{{ product.price }} zł</div>
+            <div id="shopping_cart">{{ product.unit }}</div>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="description">
+                {{ product.description }}
+            </div>
+        </div>
+        
+{% endblock %}

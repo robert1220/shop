@@ -14,7 +14,7 @@ body {
 
 #content {
     float: left;
-    max-width: 1000px;
+    width: 1000px;
     height: auto;
 }
 
@@ -41,13 +41,16 @@ body {
 
 #list_category ul li div:hover{
     background-color: rgb(240, 240, 240);
-    cursor: pointer;
 }
 
 a {
 font-style: normal;
 text-decoration: none;
 color: black;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 #futer {

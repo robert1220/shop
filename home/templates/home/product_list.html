@@ -18,8 +18,8 @@ Nie ma takiej strony
 {% for question in object_list %}
     <li>
         <div class="cell">
-            <img class="image" src="{{ question.image }}">
-            <div class="product_title">{{ question.name}}</div>
+            <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
+            <div class="product_title"><a href="{% url 'home:detail' question.id %}">{{ question.name}}</a></div>
             <div class="product_price">{{ question.price }} zł</div>
             <div style="clear: both;"></div>
         </div>
