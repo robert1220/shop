@@ -6,13 +6,7 @@ Strona Główna
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'home/css/index.css' %}">
-{% endblock %}
-
-{% block menu %}
-{% for item in menu %}
-<li><div>{{ item.name }}</div></li>
-{% endfor %}
+<link rel="stylesheet" href="{% static 'home/css/list.css' %}">
 {% endblock %}
 
 
@@ -22,7 +16,7 @@ Strona Główna
     <li>
         <div class="cell">
             <img class="image" src="{{ question.image }}">
-            <div class="product_title">{{ question.name|truncatechars:21 }}</div>
+            <div class="product_title">{{ question.name }}</div>
             <div class="product_price">{{ question.price }} zł</div>
             <div style="clear: both;"></div>
         </div>

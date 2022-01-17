@@ -6,7 +6,7 @@ ul {
 
 .cell {
     width: min-content;
-    height: min-content;
+    height: 350px;
     background-color: rgb(221, 221, 221);
     margin: 6px;
     padding-bottom: 10px;
@@ -15,32 +15,38 @@ ul {
 
 .cell:hover {
     background-color: rgb(255, 255, 255);
-    cursor: pointer;
 }
 
 .image {
-    width: 300px;
-    height: 400px;
+    width: 168px;
+    height: 230px;
     padding: 10px;
 }
 
 #list li {
-    float: left;
     padding: 0;
+    float: left;
 }
 
 .product_title {
-    margin-left: 5px;
     font-size: 15px;
     font-weight: bold;
     width: auto;
-    float: left;
-    
+    text-align: center;
 }
 
 .product_price {
+    margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
-    float: right;
-    margin-right: 5px;
+    text-align: center;
+    width: auto;
+}
+
+.pagination{
+width: auto;
+height: 35px;
+margin-left: 6px;
+padding-top: 40px;
+text-align: center;
 }

@@ -6,51 +6,54 @@ body {
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    background-color: rgb(207, 207, 207);
 }
 #logo{
     padding: 15px;
 }
 
-#nav {
-    width: 200px;
-    float: left;
-    background-color: rgb(207, 207, 207);
-}
 #content {
-    background-color: rgb(207, 207, 207);
     float: left;
     max-width: 1000px;
     height: auto;
 }
 
-#menu {
-   padding-left: 10px;
+#list_category {
+    width: 200px;
+    float: left;
+}
+
+#list_category ul {
+   padding-left: 0px;
    margin: 0;
    list-style-type: none;
 }
 
-#menu li div{
+#list_category ul li div{
     width: auto;
     height: min-content;
     background-color: rgb(230, 230, 230);
     border-bottom: dotted;
     border-width: 1px;
     text-align: center;
-    font-size: 17px;
-    font-weight: bold;
+    font-size: 16px;
 }
 
-#menu li div:hover{
+#list_category ul li div:hover{
     background-color: rgb(240, 240, 240);
     cursor: pointer;
 }
 
-
+a {
+font-style: normal;
+text-decoration: none;
+color: black;
+}
 
 #futer {
     clear: both;
-
     width: 1200;
-    height: 50px;
+    height: 200px;
+    background-color: rgb(177, 177, 177);
 }
 

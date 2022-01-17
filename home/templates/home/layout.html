@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'home/css/layout.css' %}">
     {% block style %}{% endblock %}
 </head>
+
 <body>
 <div id="container">
+    
     <div id="logo"><h1>LOGO Najleprzy sklep</h1></div>
-    <div id="nav">
-        <ul id="menu">
-{% block menu %}{% endblock %}
-        </ul>
-    </div>
+    <div id="list_category"><ul>
+{% for item in menu %}
+<li><div><a href="{% url 'home:list' item.id %}">{{item.name}}</a></div></li>
+{% endfor %}
+    </ul></div>
+
+
 <div id="content">
     {% block list %}{% endblock %}
 </div>
+
     <div id="futer">Stopka</div>
 
 </div>
