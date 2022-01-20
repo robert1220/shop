@@ -1,3 +1,5 @@
+import decimal
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponse
@@ -10,6 +12,7 @@ from django.views import View
 # Create your views here.
 
 class ShoppingCart(View):
+
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
@@ -29,6 +32,29 @@ class ShoppingCart(View):
         query.delete_cookie(cookie_to_del)
         return query
 
+    def _total_sum(self, cart_product):
+        total = decimal.Decimal()
+        for cart in cart_product:
+            total += cart[2]
+        return total
+
+    def _del_csrf_token_from_cookie(self, cookie_with_csrf):
+        cookie_clear = {}
+        cookie_clear.update(cookie_with_csrf)
+        cookie_clear.pop('csrftoken')
+        return cookie_clear
+
+    def _bulid_card(self, products, cookie_with_not_csrf):
+        cart_product = []
+        for product in products:
+            cart_product.append(
+                [
+                    product, cookie_with_not_csrf[str(product.pk)],
+                    decimal.Decimal(cookie_with_not_csrf[str(product.pk)]) * product.price
+                ]
+            )
+        return cart_product
+
     def post(self, request):
         if request.POST.get('del_id'):
             return ShoppingCart._del_card_item(self, request)
@@ -36,22 +62,20 @@ class ShoppingCart(View):
             return ShoppingCart._add_cart_item(self, request)
 
     def get(self, request):
-        cookie = {}
         id_to_query_sql = []
-        cart_product = []
-        cookie.update(request.COOKIES)
-        cookie.pop('csrftoken')
+        cookie = ShoppingCart._del_csrf_token_from_cookie(self,request.COOKIES)
         id_to_query_sql.extend(cookie)
         products = Product.objects.all().filter(pk__in=id_to_query_sql)
-        for product in products:
-            cart_product.append([product,cookie[str(product.pk)]])
-        print(cart_product)
+        cart_product = ShoppingCart._bulid_card(self,products,cookie)
+        total_sum_cart = ShoppingCart._total_sum(self,cart_product)
+
         return render(
            request,
            'home/cart.html'
            ,context={
                'menu':Category.objects.only('name'),
-               'cart_product':cart_product
+               'cart_product':cart_product,
+               'total':total_sum_cart
            }
        )
 
