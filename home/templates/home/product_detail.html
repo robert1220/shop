@@ -16,7 +16,10 @@ Coś do wstawienia
             <div id="details">
             <div id="title_product">{{ product.name }}</div>
             <div id="price">{{ product.price }} zł</div>
-            <div id="shopping_cart">{{ product.unit }}</div>
+            <div id="shopping_cart">
+                {% include "home/shoping_cart_add_form.html" %}
+
+            </div>
             </div>
             <div style="clear: both;"></div>
             <div id="description">
