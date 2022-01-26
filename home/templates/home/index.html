@@ -18,6 +18,7 @@ Strona Główna
             <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
             <div class="product_title"><a href="{% url 'home:detail' question.id %}">{{ question.name}}</a></div>
             <div class="product_price">{{ question.price }} zł</div>
+            <div class="shoping_cart">{% include "home/shoping_cart_add_form.html" %}</div>
             <div style="clear: both;"></div>
         </div>
         <div style="clear: both;">

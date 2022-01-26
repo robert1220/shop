@@ -18,6 +18,13 @@ body {
     height: auto;
 }
 
+#nav_cart {
+text-align: right;
+padding: 20px;;
+font-size: 20px;
+font-weight: bold;
+}
+
 #list_category {
     width: 200px;
     float: left;

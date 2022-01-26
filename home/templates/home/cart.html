@@ -6,41 +6,43 @@ Coś do wstawienia
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'home/css/product_cart.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/cart.css' %}">
 {% endblock %}
 
 {% block list %}
-        <div id="product">
+        <div id="cart">
             {% if cart_product %}
-            <div id="image"><img src="{{ product.image }}"></div>
-            <div id="details">
-
-                {%for cart in cart_product%}
+                    {%for cart in cart_product%}
+                    <div class="cart_list">
+                        <div class="image"><img src="{{ cart.0.image }}"></div><div class="cart_item">
+                            <table><tr><th class="table_th">Nazwa</th><th >Cena Brutto</th><th>Ilość</th><th>Suma</th></tr>
+                                <tr><td>{{cart.0.name}}</td><td>{{cart.0.price}} zł</td><td>
                 <form method="POST" action="{% url 'home:cart' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="del_id" value="{{cart.0.id}}">
-                    <input type="submit" value="Usuń"></form>
-                {% endfor %}
-                    {%for cart in cart_product%}
-                    {{cart.0.name}}
-                <form method="POST" action="{% url 'home:cart' %}">{% csrf_token %}
-    {{cart.2}}  <input type="number" name="product_quantity" value="{{cart.1}}" size="4" min="1" max="{{cart.0.storage}}">
-    <input type="hidden" name="id_product" value="{{cart.0.id}}">
-                    <input type="hidden" name="update" value="True">
-                    <input type="submit" value="Aktualizuj">
-                    </form>
+                    <input type="number" name="product_quantity" value="{{cart.1}}" size="4" min="1" max="{{cart.0.storage}}">
+                    <input type="hidden" name="id_product" value="{{cart.0.id}}">
+                    <input type="submit" name="update" value="Aktualizuj">
+                    <input type="submit" name="delete" value="Usuń">
+                    </form></td>
+                <td>{{ cart.2 }}</td>
+            </tr>
+        </table>
+                </div><div style="clear: both;"></div></div>
                     {% endfor %}
-                {% if total %}{{ total }}{% endif %}
-                <form method="POST" action="{% url 'home:cart' %}">
-                    <input type="submit" value="Do kasy">
-                </form>
-            </div>
-            </div>
-            <div style="clear: both;"></div>
-            <div id="description">
-                {{ product.description }}
-            </div>
-{% else %}Twój koszuk jest pusty{% endif %}
+
+                    <div id="total_price">Suma: {{ total }} zł</div>
+
+               <div id="form_order">
+                <form method="POST" action="{% url 'home:order' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Dalej"></form></div>
+
+
         </div>
+                
+
+{% else %}Twój koszuk jest pusty{% endif %}
+        
 
 {% endblock %}

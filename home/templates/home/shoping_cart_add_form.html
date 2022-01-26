@@ -1,7 +1,9 @@
 <form method="POST" action="{% url 'home:cart' %}">
     {% csrf_token %}
+
+
     <input type="number" name="product_quantity" value="1" size="4" min="1" max="{{ question.storage }}{{ product.storage }}">
     <input type="hidden" name="id_product" value="{{ question.id }}{{ product.id }}">
-    {{ product.unit }}
-    <input type="submit" value="Dodaj od koszyka">
+     z {{ question.storage }} {{ product.storage }} {{ question.unit }}{{ product.unit }}
+    <input type="submit" name="add" value="Dodaj od koszyka">
                     </form>
