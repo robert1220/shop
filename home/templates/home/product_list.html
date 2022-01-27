@@ -1,0 +1,49 @@
+{% extends 'home/layout.html' %}
+{% load static %}
+
+{% block title %}
+Lista Produktów
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'home/css/list.css' %}">
+{% endblock %}
+
+{% block list %}
+{% if not object_list %}
+Nie ma takiej strony
+{% endif %}
+{{ undo }}
+<UL id="list">
+{% for question in object_list %}
+    <li>
+        <div class="cell">
+            <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
+            <div class="product_title"><a href="{% url 'home:detail' question.id %}">{{ question.name}}</a></div>
+            <div class="product_price">{{ question.price }} zł</div>
+            <div class="shoping_cart">{% include "home/shoping_cart_add_form.html" %}</div>
+            <div style="clear: both;"></div>
+        </div>
+        <div style="clear: both;">
+            </div>
+    </li>
+{% endfor %}
+</UL>
+<div style="clear: both;" class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; pierwsza</a>
+            <a href="?page={{ page_obj.previous_page_number }}">wstecz</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">dalej</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">ostatnia &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
