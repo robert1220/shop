@@ -18,11 +18,17 @@ class ShoppingCart(View):
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
-        if request.session.get(id):
-            quantity = int(quantity) + int(request.session.get(id))
+
+        if not request.session.get('cart'):
+            request.session['cart'] = {}
+
+        sesion_cart = dict(request.session.get('cart'))
+        if sesion_cart.get(id):
+            quantity = int(quantity) + int(sesion_cart.get(id))
             if Product.objects.only('storage').filter(id=id, storage__lt=quantity):
                 return redirect('home:cart')
-        request.session[id] = quantity
+        sesion_cart[id] = quantity
+        request.session['cart'] = sesion_cart
         return redirect('home:cart')
 
     def _update_cart(self, request):
@@ -30,12 +36,16 @@ class ShoppingCart(View):
         id = request.POST.get('id_product')
         if Product.objects.only('storage').filter(id=id, storage__lt=quantity):
             return redirect('home:cart')
-        request.session[id] = quantity
+        sesion_card = dict(request.session.get('cart'))
+        sesion_card[id] = quantity
+        request.session['cart'] = sesion_card
         return redirect('home:cart')
 
     def _del_cart_item(self, request):
-        session_to_del = request.POST.get('id_product')
-        del request.session[session_to_del]
+        cart_item_to_del = request.POST.get('id_product')
+        session_card = dict(request.session.get('cart'))
+        session_card.pop(cart_item_to_del)
+        request.session['cart'] = session_card
         return redirect('home:cart')
 
     def _total_sum(self, cart_product):
@@ -61,15 +71,23 @@ class ShoppingCart(View):
         elif request.POST.get('update'):
             return ShoppingCart._update_cart(self,request)
         elif request.POST.get('add'):
+            print(request.POST)
             return ShoppingCart._add_cart_item(self, request)
 
     def get(self, request):
-        id_to_query_sql = []
-        sess = {}
-        sess.update(request.session)
-        id_to_query_sql.extend(sess)
+        if not request.session.get('cart'):
+            return render(
+                request,
+                'home/cart.html'
+                , context={
+                    'menu': Category.objects.only('name'),
+                }
+            )
+
+        session_cart = dict(request.session.get('cart'))
+        id_to_query_sql = list(session_cart)
         products = Product.objects.all().filter(pk__in=id_to_query_sql)
-        cart_product = ShoppingCart._bulid_cart(self,products,sess)
+        cart_product = ShoppingCart._bulid_cart(self,products,session_cart)
         total_sum_cart = ShoppingCart._total_sum(self,cart_product)
         form = ShoppingCartOrderForm()
         return render(
@@ -130,7 +148,7 @@ class IndexList(ListView):
 class ProductList(ListView):
     model = Product
     template_name = 'home/product_list.html'
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self):
         product_list = get_list_or_404(Product.objects.all().filter(category_id=self.kwargs.get('id')))

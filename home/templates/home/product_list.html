@@ -14,22 +14,20 @@ Lista Produktów
 Nie ma takiej strony
 {% endif %}
 {{ undo }}
-<UL id="list">
+<div class="container">
+    <div class="row">
 {% for question in object_list %}
-    <li>
-        <div class="cell">
-            <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
-            <div class="product_title"><a href="{% url 'home:detail' question.id %}">{{ question.name}}</a></div>
-            <div class="product_price">{{ question.price }} zł</div>
-            <div class="shoping_cart">{% include "home/shoping_cart_add_form.html" %}</div>
-            <div style="clear: both;"></div>
-        </div>
-        <div style="clear: both;">
-            </div>
-    </li>
+<div class="col-12 col-md-6 col-lg-4 col-xxl-3 cell">
+    <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
+    <a href="{% url 'home:detail' question.id %}"><p class="product_text">{{ question.name}}</p></a>
+    <a href="{% url 'home:detail' question.id %}"><p class="product_text product_price">{{ question.price }} zł</p></a>
+    <div class="shoping_cart">{% include "home/shoping_cart_add_form.html" %}</div>
+</div>
 {% endfor %}
-</UL>
-<div style="clear: both;" class="pagination">
+</div>
+</div>
+<!--
+<div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
             <a href="?page=1">&laquo; pierwsza</a>
@@ -46,4 +44,24 @@ Nie ma takiej strony
         {% endif %}
     </span>
 </div>
+-->
+<nav aria-label="Podstrony" class="pag">
+    <ul class="pagination pagination-sm justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1"> <span aria-hidden="true">&laquo;</span></a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Wstecz</a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#"> <span aria-hidden="true">&laquo;</span></a></li>
+        <li class="page-item disabled"><a class="page-link" href="#">Wstecz</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link page_number">{{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+        <li class="page-item "><a class="page-link" href="?page={{ page_obj.next_page_number }}">Dalej</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span aria-hidden="true">&raquo;</span></a></li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#">Dalej</a></li>
+      <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-double-right"></i></a></li>
+      {% endif %}
+    </ul>
+  </nav>
 {% endblock %}
