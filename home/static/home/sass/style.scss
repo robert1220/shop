@@ -1,0 +1,120 @@
+
+
+body {
+    background-color: rgb(221, 211, 211);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    .container {
+    
+        a {
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+            }
+
+
+        header {
+            width: auto;
+            padding: 15px;
+            background-color: rgb(204, 204, 204);
+        }
+
+        .nav-link {
+            font-size: 20px;
+        }
+
+        .nav_cart {
+            position: relative;
+            padding: 0px;
+            margin: 0px;
+
+            a{
+                p {
+                    position: absolute;
+                    top: -2%;
+                    left: 32%;
+                    margin: 0px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: red;
+                }
+            }
+
+            .bi-cart4 {
+                font-size: 20px;
+            }
+        }
+
+        main {
+            background-color: rgb(212, 209, 209);
+
+            .cell {
+                height: 100%;
+                background-color: rgb(221, 221, 221);
+                padding: 5px;
+                border: 5px solid rgb(212, 209, 209);
+
+                a {
+                    color:black
+                }
+
+                .image {
+                    display: block;
+                    height: 300px;
+                    margin: 0 auto;
+                    margin-top: 30px;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                }
+
+                .product_text {
+                    font-weight: bold;
+                    text-align: center;
+                }
+                
+                
+                .product_price {
+                    font-size: 18px;
+                }
+
+                .add_cart {
+                    border-radius: 20%;
+                }
+            }
+            
+            .cell:hover {
+                background-color: rgb(255, 255, 255);
+            }
+
+            .shoping_cart {
+                padding-bottom: 5%;
+                padding-right: 5%;
+                text-align: right;
+            }
+
+            .page_number {
+                color: rgb(0, 0, 0) !important;
+            }
+
+        }
+        
+        footer {
+            width: 1200;
+            height: 200px;
+            background-color: rgb(177, 177, 177);
+        }
+
+        @media (min-width: 992px) {
+            .mobile_nav {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .full_nav {
+                display: none;
+            }
+        }
+
+        }
+}

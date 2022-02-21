@@ -1,7 +1,4 @@
 .cell {
-    /* width: 238px; 
-     height: 400px;
-    */
     height: 100%;
     background-color: rgb(221, 221, 221);
     padding: 5px;
@@ -15,17 +12,6 @@
 .cell a {
     color:black
 }
-
-/*
-.image {
-    height: 300px;
-    width: min-content;
-    margin: 0 auto;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: chartreuse;
-}
-*/
 
 .image {
     display: block;

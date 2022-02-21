@@ -1,0 +1,110 @@
+body {
+  background-color: #ddd3d3;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body .container a {
+  font-style: normal;
+  text-decoration: none;
+  color: black;
+}
+
+body .container header {
+  width: auto;
+  padding: 15px;
+  background-color: #cccccc;
+}
+
+body .container .nav-link {
+  font-size: 20px;
+}
+
+body .container .nav_cart {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+}
+
+body .container .nav_cart a p {
+  position: absolute;
+  top: -2%;
+  left: 32%;
+  margin: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+}
+
+body .container .nav_cart .bi-cart4 {
+  font-size: 20px;
+}
+
+body .container main {
+  background-color: #d4d1d1;
+}
+
+body .container main .cell {
+  height: 100%;
+  background-color: #dddddd;
+  padding: 5px;
+  border: 5px solid #d4d1d1;
+}
+
+body .container main .cell a {
+  color: black;
+}
+
+body .container main .cell .image {
+  display: block;
+  height: 300px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+body .container main .cell .product_text {
+  font-weight: bold;
+  text-align: center;
+}
+
+body .container main .cell .product_price {
+  font-size: 18px;
+}
+
+body .container main .cell .add_cart {
+  border-radius: 20%;
+}
+
+body .container main .cell:hover {
+  background-color: white;
+}
+
+body .container main .shoping_cart {
+  padding-bottom: 5%;
+  padding-right: 5%;
+  text-align: right;
+}
+
+body .container main .page_number {
+  color: black !important;
+}
+
+body .container footer {
+  width: 1200;
+  height: 200px;
+  background-color: #b1b1b1;
+}
+
+@media (min-width: 992px) {
+  body .container .mobile_nav {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  body .container .full_nav {
+    display: none;
+  }
+}
+/*# sourceMappingURL=style.css.map */

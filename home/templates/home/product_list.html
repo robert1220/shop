@@ -6,7 +6,7 @@ Lista Produktów
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'home/css/list.css' %}">
+
 {% endblock %}
 
 {% block list %}
@@ -45,10 +45,10 @@ Nie ma takiej strony
     </span>
 </div>
 -->
-<nav aria-label="Podstrony" class="pag">
+<nav aria-label="Podstrony">
     <ul class="pagination pagination-sm justify-content-center">
         {% if page_obj.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page=1"> <span aria-hidden="true">&laquo;</span></a></li>
+        <li class="page-item"><a class="page-link" href="?page=1"><span aria-hidden="true">&laquo;</span></a></li>
         <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Wstecz</a></li>
         {% else %}
         <li class="page-item disabled"><a class="page-link" href="#"> <span aria-hidden="true">&laquo;</span></a></li>
@@ -60,7 +60,7 @@ Nie ma takiej strony
       <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span aria-hidden="true">&raquo;</span></a></li>
       {% else %}
       <li class="page-item disabled"><a class="page-link" href="#">Dalej</a></li>
-      <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-double-right"></i></a></li>
+      <li class="page-item disabled"><a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a></li>
       {% endif %}
     </ul>
   </nav>
