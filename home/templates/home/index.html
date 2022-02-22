@@ -14,7 +14,7 @@ Strona Główna
 <div class="container">
     <div class="row">
 {% for question in object_list %}
-        <div class="col-12 col-md-6 col-lg-4 col-xxl-3 cell">
+        <div class="col-12 col-md-6 col-lg-4 col-xxl-3 list">
             <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
             <a href="{% url 'home:detail' question.id %}"><p class="product_text">{{ question.name}}</p></a>
             <a href="{% url 'home:detail' question.id %}"><p class="product_text product_price">{{ question.price }} zł</p></a>

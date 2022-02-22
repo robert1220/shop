@@ -17,7 +17,7 @@ Nie ma takiej strony
 <div class="container">
     <div class="row">
 {% for question in object_list %}
-<div class="col-12 col-md-6 col-lg-4 col-xxl-3 cell">
+<div class="col-12 col-md-6 col-lg-4 col-xxl-3 list">
     <a href="{% url 'home:detail' question.id %}"><img class="image" src="{{ question.image }}"></a>
     <a href="{% url 'home:detail' question.id %}"><p class="product_text">{{ question.name}}</p></a>
     <a href="{% url 'home:detail' question.id %}"><p class="product_text product_price">{{ question.price }} zł</p></a>
@@ -26,26 +26,8 @@ Nie ma takiej strony
 {% endfor %}
 </div>
 </div>
-<!--
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; pierwsza</a>
-            <a href="?page={{ page_obj.previous_page_number }}">wstecz</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">dalej</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">ostatnia &raquo;</a>
-        {% endif %}
-    </span>
-</div>
--->
-<nav aria-label="Podstrony">
+<nav aria-label="Pagination">
     <ul class="pagination pagination-sm justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item"><a class="page-link" href="?page=1"><span aria-hidden="true">&laquo;</span></a></li>
