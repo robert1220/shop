@@ -1,7 +1,6 @@
 import decimal
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.shortcuts import HttpResponse
 from home.models import Product
 from home.models import Category
 from home.models import Orders
@@ -18,7 +17,6 @@ class ShoppingCart(View):
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
-
         if not request.session.get('cart'):
             request.session['cart'] = {}
 
@@ -65,30 +63,29 @@ class ShoppingCart(View):
             )
         return cart_product
 
+    def how_many_items_it_is_in_cart(self, request):
+        print(request.session.get('cart'))
+        session_card = dict(request.session.get('cart'))
+        values_card = [int(i) for i in session_card.values()]
+        sum_items_in_cart = sum(values_card)
+        print(sum_items_in_cart)
+        return sum_items_in_cart
+
     def post(self, request):
         if request.POST.get('delete'):
             return ShoppingCart._del_cart_item(self, request)
         elif request.POST.get('update'):
             return ShoppingCart._update_cart(self,request)
         elif request.POST.get('add'):
-            print(request.POST)
             return ShoppingCart._add_cart_item(self, request)
 
     def get(self, request):
-        if not request.session.get('cart'):
-            return render(
-                request,
-                'home/cart.html'
-                , context={
-                    'menu': Category.objects.only('name'),
-                }
-            )
-
         session_cart = dict(request.session.get('cart'))
         id_to_query_sql = list(session_cart)
         products = Product.objects.all().filter(pk__in=id_to_query_sql)
         cart_product = ShoppingCart._bulid_cart(self,products,session_cart)
         total_sum_cart = ShoppingCart._total_sum(self,cart_product)
+        how_many_items_in_cart = ShoppingCart().how_many_items_it_is_in_cart(request)
         form = ShoppingCartOrderForm()
         return render(
            request,
@@ -97,7 +94,8 @@ class ShoppingCart(View):
                'menu':Category.objects.only('name'),
                 'cart_product': cart_product,
                 'total': total_sum_cart,
-                'form':form
+                'form':form,
+                'how_many_items_in_cart':how_many_items_in_cart,
            }
        )
 
@@ -143,6 +141,7 @@ class IndexList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = Category.objects.only('name')
+        context['how_many_items_in_cart'] = ShoppingCart().how_many_items_it_is_in_cart(self.request)
         return context
 
 class ProductList(ListView):
@@ -157,6 +156,7 @@ class ProductList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = Category.objects.only('name')
+        context['how_many_items_in_cart'] = ShoppingCart().how_many_items_it_is_in_cart(self.request)
         return context
 
 class ProductDetail(DetailView):
@@ -169,6 +169,7 @@ class ProductDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = Category.objects.only('name')
+        context['how_many_items_in_cart'] = ShoppingCart().how_many_items_it_is_in_cart(self.request)
         return context
 
     def render_to_response(self, context, **response_kwargs):

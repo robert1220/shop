@@ -1,5 +1,4 @@
 from django import forms
-from home.models import Product
 
 from django.forms.widgets import NumberInput
 
@@ -16,4 +15,4 @@ class ShoppingCartOrderForm(forms.Form):
 
 #class ShoppingCartAddForms(forms.Form):
 #   id_product = forms.CharField()
-    #product_quantity = forms.CharField(initial='1')
+#   product_quantity = forms.CharField(initial='1')

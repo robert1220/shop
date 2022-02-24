@@ -21,8 +21,8 @@ Coś do wstawienia
                     {% csrf_token %}
                     <input type="number" name="product_quantity" value="{{cart.1}}" size="4" min="1" max="{{cart.0.storage}}">
                     <input type="hidden" name="id_product" value="{{cart.0.id}}">
-                    <input type="submit" name="update" value="Aktualizuj">
-                    <input type="submit" name="delete" value="Usuń">
+                    <button class="btn btn-primary" type="submit" name="update" title="Aktualizuj" value="Aktualizuj"><i class="bi bi-arrow-repeat"></i></button>
+                    <button class="btn btn-danger" type="submit" name="delete" title="Usuń" value="Usuń"><i class="bi bi-trash3"></i></button>
                     </form></td>
                 <td>{{ cart.2 }}</td>
             </tr>

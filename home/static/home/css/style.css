@@ -46,12 +46,6 @@ body .container main {
   background-color: #d4d1d1;
 }
 
-body .container main .shoping_cart {
-  padding-bottom: 5%;
-  padding-right: 5%;
-  text-align: right;
-}
-
 body .container main img {
   display: block;
   margin: 0 auto;
@@ -74,6 +68,16 @@ body .container main .list {
   background-color: #dddddd;
   padding: 5px;
   border: 5px solid #d4d1d1;
+}
+
+body .container main .list .shoping_cart {
+  padding-bottom: 5%;
+  padding-right: 5%;
+  text-align: center;
+}
+
+body .container main .list .shoping_cart .bi-cart4 {
+  font-size: 20px;
 }
 
 body .container main .list a {
