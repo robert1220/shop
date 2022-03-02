@@ -155,7 +155,42 @@ body {
                     }
                 }
             }
-        }
+
+            .container {
+
+                    .table {
+
+                        img {
+                            width: 70px;
+                            height: auto;
+                            padding-top: 5px;
+                            padding-bottom: 5px;
+                        }
+
+                        form {
+                            text-align: center;
+
+                            div {
+                                margin: 5px;
+
+                                @media (max-width: 991px) {
+                                    button {
+                                        margin-top: 10px;
+                                        margin-left: 10px;
+                                    }
+                                }
+                            }
+                        }
+        
+                        @media (max-width: 991px) {
+                            .tab-full {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+            }
         
         footer {
             width: 1200;

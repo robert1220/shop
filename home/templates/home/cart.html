@@ -5,44 +5,55 @@
 Coś do wstawienia
 {% endblock %}
 
-{% block style %}
-<link rel="stylesheet" href="{% static 'home/css/cart.css' %}">
-{% endblock %}
-
 {% block list %}
-        <div id="cart">
+        <div class="container">
             {% if cart_product %}
-                    {%for cart in cart_product%}
-                    <div class="cart_list">
-                        <div class="image"><img src="{{ cart.0.image }}"></div><div class="cart_item">
-                            <table><tr><th class="table_th">Nazwa</th><th >Cena Brutto</th><th>Ilość</th><th>Suma</th></tr>
-                                <tr><td>{{cart.0.name}}</td><td>{{cart.0.price}} zł</td><td>
-                <form method="POST" action="{% url 'home:cart' %}">
-                    {% csrf_token %}
-                    <input type="number" name="product_quantity" value="{{cart.1}}" size="4" min="1" max="{{cart.0.storage}}">
-                    <input type="hidden" name="id_product" value="{{cart.0.id}}">
-                    <button class="btn btn-primary" type="submit" name="update" title="Aktualizuj" value="Aktualizuj"><i class="bi bi-arrow-repeat"></i></button>
-                    <button class="btn btn-danger" type="submit" name="delete" title="Usuń" value="Usuń"><i class="bi bi-trash3"></i></button>
-                    </form></td>
-                <td>{{ cart.2 }}</td>
-            </tr>
-        </table>
-                </div><div style="clear: both;"></div></div>
-                    {% endfor %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Nazwa</th>
+                                        <th class="tab-full" scope="col">Cena Brutto</th>
+                                        <th scope="col">Ilość</th>
+                                        <th scope="col">Suma</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for cart in cart_product%}
+                                    <tr>
+                                        <td>
+                                            <img src="{{ cart.0.image }}">
+                                        </td>
+                                        <td>
+                                            {{cart.0.name}}
+                                        </td>
+                                        <td class="tab-full">
+                                            {{cart.0.price}} zł
+                                        </td>
+                                        <td>
+                                            <form method="POST" needs-validation action="{% url 'home:cart' %}">
+                                                {% csrf_token %}
+                                                    <input type="number" name="product_quantity" value="{{cart.1}}" size="4" min="1" max="{{cart.0.storage}}">
+                                                    <input type="hidden" name="id_product" value="{{cart.0.id}}">
+                                                <div>
+                                                    <button class="btn btn-primary" type="submit" name="update" title="Aktualizuj" value="Aktualizuj"><i class="bi bi-arrow-repeat"></i></button>
+                                                    <button class="btn btn-danger" type="submit" name="delete" title="Usuń" value="Usuń"><i class="bi bi-trash3"></i></button>
+                                                </div>
+                                            </form>
+                                            </td>
+                                        <td>{{ cart.2 }} zł</td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
 
-                    <div id="total_price">Suma: {{ total }} zł</div>
-
-               <div id="form_order">
-                <form method="POST" action="{% url 'home:order' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Dalej"></form></div>
-
-
-        </div>
-                
-
-{% else %}Twój koszuk jest pusty{% endif %}
-        
-
-{% endblock %}
+                    </div>
+                    <div class="total_price">Suma: {{ total }} zł</div>
+                    <div class="form_order">
+                        <form method="POST" action="{% url 'home:order' %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Dalej"></form></div>
+                        </div>
+                        {% else %} Twój koszyk jest pusty {% endif %}
+                        {% endblock %}

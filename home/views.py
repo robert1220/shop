@@ -13,7 +13,6 @@ from home.forms import ShoppingCartOrderForm
 # Create your views here.
 
 class ShoppingCart(View):
-
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
@@ -64,11 +63,9 @@ class ShoppingCart(View):
         return cart_product
 
     def how_many_items_it_is_in_cart(self, request):
-        print(request.session.get('cart'))
         session_card = dict(request.session.get('cart'))
         values_card = [int(i) for i in session_card.values()]
         sum_items_in_cart = sum(values_card)
-        print(sum_items_in_cart)
         return sum_items_in_cart
 
     def post(self, request):

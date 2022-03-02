@@ -147,6 +147,34 @@ body .container main .product .details .shopping_cart .bi-cart4 {
   font-size: 22px;
 }
 
+body .container main .container .table img {
+  width: 70px;
+  height: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+body .container main .container .table form {
+  text-align: center;
+}
+
+body .container main .container .table form div {
+  margin: 5px;
+}
+
+@media (max-width: 991px) {
+  body .container main .container .table form div button {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 991px) {
+  body .container main .container .table .tab-full {
+    display: none;
+  }
+}
+
 body .container footer {
   width: 1200;
   height: 200px;
