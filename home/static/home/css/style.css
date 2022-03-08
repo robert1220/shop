@@ -1,12 +1,12 @@
 body {
   background-color: #ddd3d3;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
 }
 
 body .container a {
   font-style: normal;
   text-decoration: none;
-  color: black;
 }
 
 body .container header {
@@ -19,27 +19,8 @@ body .container .nav-link {
 }
 
 body .container .btn-primary {
+  border-radius: 20%;
   background-color: #00a700;
-}
-
-body .container .nav_cart {
-  position: relative;
-  padding: 0px;
-  margin: 0px;
-}
-
-body .container .nav_cart a p {
-  position: absolute;
-  top: -2%;
-  left: 32%;
-  margin: 0px;
-  font-size: 20px;
-  font-weight: bold;
-  color: red;
-}
-
-body .container .nav_cart .bi-cart4 {
-  font-size: 20px;
 }
 
 body .container main {
@@ -51,16 +32,30 @@ body .container main img {
   margin: 0 auto;
 }
 
-body .container main .btn-primary {
-  border-radius: 20%;
-}
-
 body .container main nav {
   margin-top: 50px;
 }
 
 body .container main nav .page_number {
   color: black !important;
+}
+
+body .container main .form_order {
+  padding: 30px;
+  background-color: white;
+  border: 2px solid #929292;
+  margin: 20px auto;
+}
+
+body .container main .form_order .btn-primary {
+  border-radius: 0%;
+  background-color: #0d6efd;
+}
+
+body .container main .total_price {
+  text-align: right;
+  padding: 15px;
+  font-size: 20px;
 }
 
 body .container main .list {

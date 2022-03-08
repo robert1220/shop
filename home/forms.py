@@ -3,16 +3,12 @@ from django import forms
 from django.forms.widgets import NumberInput
 
 class ShoppingCartOrderForm(forms.Form):
-    first_name = forms.CharField(label='', min_length=3, max_length=64, widget=forms.TextInput(attrs={'placeholder': 'Imię'}))
-    last_name = forms.CharField(label='', min_length=3, max_length=64, widget=forms.TextInput(attrs={'placeholder': 'Nazwisko'}))
-    email = forms.EmailField(label='', min_length=6, max_length=128, widget=forms.TextInput(attrs={'placeholder': 'email'}))
-    phone_number = forms.CharField(label='', max_length=12, required=False, widget=forms.TextInput(attrs={'placeholder': 'nr tel'}))
-    post_code = forms.CharField(label='', min_length=6, max_length=6, widget=forms.TextInput(attrs={'placeholder': 'Kod pocztowy'}))
-    adress = forms.CharField(label='', min_length=3, max_length=255, widget=forms.TextInput(attrs={'placeholder': 'Ulica i nr domu'}))
-    city = forms.CharField(label='', min_length=3, max_length=64, widget=forms.TextInput(attrs={'placeholder': 'Miasto'}))
-    country = forms.CharField(label='', min_length=3, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Kraj'}))
-    descryption = forms.CharField(label='', max_length=2000, required=False, widget=forms.Textarea(attrs={'cols':40,'rows':10, 'placeholder': 'Komentarz do zamówienia'}))
-
-#class ShoppingCartAddForms(forms.Form):
-#   id_product = forms.CharField()
-#   product_quantity = forms.CharField(initial='1')
+    first_name = forms.CharField(label='Imię', min_length=1, max_length=64, widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(label='Nazwisko', min_length=1, max_length=64, widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(label='e-mail', min_length=3, max_length=128, widget=forms.TextInput(attrs={'class':'form-control'}))
+    phone_number = forms.CharField(label='Nr telefonu', max_length=12, required=False, widget=forms.TextInput(attrs={'placeholder': 'Pole nie obowiązkowe','class':'form-control'}))
+    post_code = forms.CharField(label='Kod pocztowy', min_length=6, max_length=6, widget=forms.TextInput(attrs={'class':'form-control'}))
+    adress = forms.CharField(label='Ulica', max_length=255, widget=forms.TextInput(attrs={'class':'form-control'}))
+    city = forms.CharField(label='Miasto', max_length=64, widget=forms.TextInput(attrs={'class':'form-control'}))
+    country = forms.CharField(label='Kraj', max_length=32, widget=forms.TextInput(attrs={'class':'form-control'}))
+    descryption = forms.CharField(label='Komentarz do zamówienia', max_length=2000, required=False, widget=forms.Textarea(attrs={'rows':5, 'placeholder': 'Pole nie obowiązkowe','class':'form-control'}))

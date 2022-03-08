@@ -16,13 +16,6 @@ class Unit(models.Model):
 
 class Product(models.Model):
 
-   # PRODUCT_STATUS = [
-     #   ('in_stok', 'Dostępny'),
-     #   ('out_of_stok', 'Brak Towaru'),
-     #   ('running_low', 'Kończy się'),
-     #   ('off')
-    #]
-
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     visible = models.BooleanField(default=False)

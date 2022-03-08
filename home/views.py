@@ -13,13 +13,17 @@ from home.forms import ShoppingCartOrderForm
 # Create your views here.
 
 class ShoppingCart(View):
+
+    def _get_session_cart_to_dict(self, request):
+        if not request.session.get('cart'):
+            request.session['cart'] = {}
+        sesion_cart = dict(request.session.get('cart'))
+        return sesion_cart
+
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
-        if not request.session.get('cart'):
-            request.session['cart'] = {}
-
-        sesion_cart = dict(request.session.get('cart'))
+        sesion_cart = ShoppingCart._get_session_cart_to_dict(self,request)
         if sesion_cart.get(id):
             quantity = int(quantity) + int(sesion_cart.get(id))
             if Product.objects.only('storage').filter(id=id, storage__lt=quantity):
@@ -62,30 +66,85 @@ class ShoppingCart(View):
             )
         return cart_product
 
+    def _generate_cart(self, session_cart):
+        cart = {}
+        id_to_query_sql = list(session_cart)
+        products = Product.objects.all().filter(pk__in = id_to_query_sql)
+        cart['cart_product'] = ShoppingCart._bulid_cart(self, products, session_cart)
+        cart['total_sum'] = ShoppingCart._total_sum(self,cart['cart_product'])
+        return cart
+
+    def _order(self, request):
+        print('aaaaaaaaaaaaaaaaaaaa')
+        items = dict(request.session.get('cart'))
+        form = ShoppingCartOrderForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            order = Orders.objects.create(
+                status='order_accept',
+                email=data.get('email'),
+                first_name=data.get('first_name'),
+                last_name=data.get('last_name'),
+                post_code=data.get('post_code'),
+                phone_number=data.get('phone_number'),
+                city=data.get('city'),
+                country=data.get('country'),
+                description=data.get('descryption')
+            )
+            for id, value in items.items():
+                Order_item.objects.create(
+                    product=Product.objects.all().get(pk=id),
+                    orders=order,
+                    value=value
+                )
+            request.session.clear()
+            return redirect('home:cart')
+        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
+        cart = ShoppingCart._generate_cart(self,session_cart)
+        how_many_items_in_cart = ShoppingCart().how_many_items_it_is_in_cart(request)
+        return render(
+            request,
+            'home/cart.html'
+            , context={
+                'menu': Category.objects.only('name'),
+                'cart_product': cart['cart_product'],
+                'total': cart['total_sum'],
+                'form': form,
+                'how_many_items_in_cart': how_many_items_in_cart,
+            }
+        )
+
     def how_many_items_it_is_in_cart(self, request):
-        if not request.session.get('cart'):
-            request.session['cart'] = {}
-        session_cart = dict(request.session.get('cart'))
+        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
         values_cart = [int(i) for i in session_cart.values()]
         sum_items_in_cart = sum(values_cart)
         return sum_items_in_cart
 
+    #def post(self, request):
+    #    print(request.POST)
+    #    if request.POST.get('delete'):
+    #        return ShoppingCart._del_cart_item(self, request)
+    #    elif request.POST.get('update'):
+    #        return ShoppingCart._update_cart(self,request)
+    #    elif request.POST.get('add'):
+    #        return ShoppingCart._add_cart_item(self, request)
+    #    elif request.POST.get('order'):
+    #        return ShoppingCart._order(self, request)
+
     def post(self, request):
-        if request.POST.get('delete'):
+        print(request.POST)
+        if request.POST.get('operation') == 'delete_item_cart':
             return ShoppingCart._del_cart_item(self, request)
-        elif request.POST.get('update'):
+        elif request.POST.get('operation') == 'update_item_cart':
             return ShoppingCart._update_cart(self,request)
-        elif request.POST.get('add'):
+        elif request.POST.get('operation') == 'add_to_cart':
             return ShoppingCart._add_cart_item(self, request)
+        elif request.POST.get('operation') == 'order_item':
+            return ShoppingCart._order(self, request)
 
     def get(self, request):
-        if not request.session.get('cart'):
-            request.session['cart'] = {}
-        session_cart = dict(request.session.get('cart'))
-        id_to_query_sql = list(session_cart)
-        products = Product.objects.all().filter(pk__in=id_to_query_sql)
-        cart_product = ShoppingCart._bulid_cart(self,products,session_cart)
-        total_sum_cart = ShoppingCart._total_sum(self,cart_product)
+        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
+        cart = ShoppingCart._generate_cart(self,session_cart)
         how_many_items_in_cart = ShoppingCart().how_many_items_it_is_in_cart(request)
         form = ShoppingCartOrderForm()
         return render(
@@ -93,8 +152,8 @@ class ShoppingCart(View):
            'home/cart.html'
            ,context={
                'menu':Category.objects.only('name'),
-                'cart_product': cart_product,
-                'total': total_sum_cart,
+                'cart_product': cart['cart_product'],
+                'total': cart['total_sum'],
                 'form':form,
                 'how_many_items_in_cart':how_many_items_in_cart,
            }
@@ -102,8 +161,7 @@ class ShoppingCart(View):
 
 class Order(View):
     def post(self, request):
-        items = {}
-        items.update(request.session)
+        items = dict(request.session.get('cart'))
         form = ShoppingCartOrderForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -118,7 +176,6 @@ class Order(View):
                 country = data.get('country'),
                 description = data.get('descryption')
             )
-
             for id, value in items.items():
                 Order_item.objects.create(
                     product = Product.objects.all().get(pk=id),
@@ -129,7 +186,8 @@ class Order(View):
             return render(request,'home/order.html', context = {'menu':Category.objects.only('name')})
 
     def get(self, request):
-        return redirect('home:cart')
+        form = ShoppingCartOrderForm()
+        return render(request,'home/order.html', context = {'menu':Category.objects.only('name'), 'form':form})
 
 
 class IndexList(ListView):

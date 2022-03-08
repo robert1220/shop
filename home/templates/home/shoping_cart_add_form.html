@@ -2,5 +2,5 @@
     {% csrf_token %}
     <input type="hidden" name="product_quantity" value="1">
     <input type="hidden" name="id_product" value="{{ question.id }}">
-        <button class="btn btn-primary add_cart" type="submit" name="add" title="Dodaj do koszyka" value="Dodaj od koszyka"><i class="bi bi-cart4"></i></button>
+        <button class="btn btn-primary add_cart" type="submit" name="operation" title="Dodaj do koszyka" value="add_to_cart"><i class="bi bi-cart4"></i></button>
                     </form>

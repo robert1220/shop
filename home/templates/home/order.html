@@ -1,16 +1,118 @@
-{% extends 'home/layout.html' %}
-{% load static %}
-
-{% block title %}
-
-{% endblock %}
-
-{% block style %}
-<link rel="stylesheet" href="{% static 'home/css/order.css' %}">
-{% endblock %}
-
-
+{% extends 'home/layout.html' %} {% load static %} 
+{% block title %} {% endblock %}
+{% block style %} {% endblock %}
 {% block list %}
-        <div class="cell">Twoje zamówienie zostało przyjęte</div>
-        <div style="clear: both;"></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Nazwa</th>
+            <th class="tab-full" scope="col">Cena Brutto</th>
+            <th scope="col">Ilość</th>
+            <th scope="col">Suma</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for cart in cart_product%}
+        <tr>
+            <td>
+                <img src="{{ cart.0.image }}" />
+            </td>
+            <td>{{cart.0.name}}</td>
+            <td class="tab-full">{{cart.0.price}} zł</td>
+            <td>{{cart.1}}"</td>
+            <td>{{ cart.2 }} zł</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+
+<div class="form_order">
+	<form
+		method="POST"
+		action="{% url 'home:order' %}"
+		class="row g-3 was-validated"
+	>
+		{% csrf_token %}
+
+		<div class="col-md-4">
+			<label for="{{ form.first_name.id_for_label }}" class="form-label"
+				>{{ form.first_name.label }}</label
+			>
+			{{ form.first_name }} {{ form.first_name.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj swoje Imię</div>
+		</div>
+		<div class="col-md-4">
+			<label for="{{ form.last_name.id_for_label }}" class="form-label"
+				>{{ form.last_name.label }}</label
+			>
+			{{ form.last_name }} {{ form.last_name.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj swoje Nazwisko</div>
+		</div>
+		<div class="col-md-4">
+			<label for="{{ form.email.id_for_label }}" class="form-label"
+				>{{ form.email.label }}</label
+			>
+			{{ form.email }} {{ form.email.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj swój adres e-mail</div>
+		</div>
+		<div class="col-md-6">
+			<label for="{{ form.city.id_for_label }}" class="form-label"
+				>{{ form.city.label }}</label
+			>
+			{{ form.city }} {{ form.city.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj swoje miasto</div>
+		</div>
+		<div class="col-md-4">
+			<label for="{{ form.post_code.id_for_label }}" class="form-label"
+				>{{ form.post_code.label }}</label
+			>
+			{{ form.post_code }} {{ form.post_code.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj kod pocztowy</div>
+		</div>
+		<div class="col-md-4">
+			<label for="{{ form.adress.id_for_label }}" class="form-label"
+				>{{ form.adress.label }}</label
+			>
+			{{ form.adress }} {{ form.adress.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj swoją ulicę</div>
+		</div>
+
+		<div class="col-md-4">
+			<label for="{{ form.country.id_for_label }}" class="form-label"
+				>{{ form.country.label }}</label
+			>
+			{{ form.country }} {{ form.country.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Kraj</div>
+		</div>
+
+		<div class="col-md-4">
+			<label for="{{ form.phone_number.id_for_label }}" class="form-label"
+				>{{ form.phone_number.label }}</label
+			>
+			{{ form.phone_number }} {{ form.phone_number.errors }}
+			<div class="valid-feedback">Dobrze</div>
+			<div class="invalid-feedback">Podaj nr telefonu</div>
+		</div>
+		<div class="col-md-12">
+			<label for="{{ form.descryption.id_for_label }}" class="form-label"
+				>{{ form.descryption.label }}</label
+			>
+			{{ form.descryption }} {{ form.descryption.errors }}
+		</div>
+
+		<div class="col-12">
+			<button class="btn btn-primary" type="submit">Zamawiam</button>
+		</div>
+	</form>
+</div>
+
 {% endblock %}
