@@ -31,13 +31,21 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+class ShipingAdress(models.Model):
+
+    first_name = models.CharField(max_length=64, null=True)
+    last_name = models.CharField(max_length=64, null=True)
+    phone_number = models.CharField(max_length=12, null=True, blank=True)
+    post_code = models.CharField(max_length=6)
+    city = models.CharField(max_length=64)
+    adress = models.CharField(max_length=255)
 
 class Orders(models.Model):
 
     ORDER_STATUS = [
         ('completed', 'Wysłano'),
-        ('in_progress ', 'W realizacji'),
-        ('order_accept ', 'Przyjęto zamówienie')
+        ('in_progress', 'W realizacji'),
+        ('order_accept', 'Przyjęto zamówienie')
     ]
     status = models.CharField(max_length=18, choices=ORDER_STATUS)
     product_id = models.ManyToManyField(Product, through='Order_item')

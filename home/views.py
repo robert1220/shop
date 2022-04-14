@@ -8,6 +8,7 @@ from home.models import Order_item
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.shortcuts import get_list_or_404
+from django.shortcuts import Http404
 from django.views import View
 from home.forms import ShoppingCartOrderForm
 # Create your views here.
@@ -23,7 +24,7 @@ class ShoppingCart(View):
     def _add_cart_item(self, request):
         quantity = request.POST.get('product_quantity')
         id = request.POST.get('id_product')
-        sesion_cart = ShoppingCart._get_session_cart_to_dict(self,request)
+        sesion_cart = self._get_session_cart_to_dict(request)
         if sesion_cart.get(id):
             quantity = int(quantity) + int(sesion_cart.get(id))
             if Product.objects.only('storage').filter(id=id, storage__lt=quantity):
@@ -70,12 +71,11 @@ class ShoppingCart(View):
         cart = {}
         id_to_query_sql = list(session_cart)
         products = Product.objects.all().filter(pk__in = id_to_query_sql)
-        cart['cart_product'] = ShoppingCart._bulid_cart(self, products, session_cart)
-        cart['total_sum'] = ShoppingCart._total_sum(self,cart['cart_product'])
+        cart['cart_product'] = self._bulid_cart(products,session_cart)
+        cart['total_sum'] = self._total_sum(cart['cart_product'])
         return cart
 
     def _order(self, request):
-        print('aaaaaaaaaaaaaaaaaaaa')
         items = dict(request.session.get('cart'))
         form = ShoppingCartOrderForm(request.POST)
         if form.is_valid():
@@ -88,6 +88,7 @@ class ShoppingCart(View):
                 post_code=data.get('post_code'),
                 phone_number=data.get('phone_number'),
                 city=data.get('city'),
+                adress=data.get('adress'),
                 country=data.get('country'),
                 description=data.get('descryption')
             )
@@ -99,9 +100,10 @@ class ShoppingCart(View):
                 )
             request.session.clear()
             return redirect('home:cart')
-        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
-        cart = ShoppingCart._generate_cart(self,session_cart)
-        how_many_items_in_cart = ShoppingCart().how_many_items_it_is_in_cart(request)
+
+        session_cart = self._get_session_cart_to_dict(request)
+        cart = self._generate_cart(session_cart)
+        how_many_items_in_cart = self.how_many_items_it_is_in_cart(request)
         return render(
             request,
             'home/cart.html'
@@ -115,37 +117,27 @@ class ShoppingCart(View):
         )
 
     def how_many_items_it_is_in_cart(self, request):
-        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
+        session_cart = self._get_session_cart_to_dict(request)
         values_cart = [int(i) for i in session_cart.values()]
         sum_items_in_cart = sum(values_cart)
         return sum_items_in_cart
 
-    #def post(self, request):
-    #    print(request.POST)
-    #    if request.POST.get('delete'):
-    #        return ShoppingCart._del_cart_item(self, request)
-    #    elif request.POST.get('update'):
-    #        return ShoppingCart._update_cart(self,request)
-    #    elif request.POST.get('add'):
-    #        return ShoppingCart._add_cart_item(self, request)
-    #    elif request.POST.get('order'):
-    #        return ShoppingCart._order(self, request)
-
     def post(self, request):
-        print(request.POST)
         if request.POST.get('operation') == 'delete_item_cart':
-            return ShoppingCart._del_cart_item(self, request)
+            return self._del_cart_item(request)
         elif request.POST.get('operation') == 'update_item_cart':
-            return ShoppingCart._update_cart(self,request)
+            return self._update_cart(request)
         elif request.POST.get('operation') == 'add_to_cart':
-            return ShoppingCart._add_cart_item(self, request)
+            return self._add_cart_item(request)
         elif request.POST.get('operation') == 'order_item':
-            return ShoppingCart._order(self, request)
+            return self._order(request)
+        else:
+            raise Http404()
 
     def get(self, request):
-        session_cart = ShoppingCart._get_session_cart_to_dict(self, request)
-        cart = ShoppingCart._generate_cart(self,session_cart)
-        how_many_items_in_cart = ShoppingCart().how_many_items_it_is_in_cart(request)
+        session_cart = self._get_session_cart_to_dict(request)
+        cart = self._generate_cart(session_cart)
+        how_many_items_in_cart = self.how_many_items_it_is_in_cart(request)
         form = ShoppingCartOrderForm()
         return render(
            request,
@@ -159,12 +151,14 @@ class ShoppingCart(View):
            }
        )
 
+#Disabled
 class Order(View):
     def post(self, request):
         items = dict(request.session.get('cart'))
         form = ShoppingCartOrderForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            print(data)
             order = Orders.objects.create(
                 status ='order_accept',
                 email = data.get('email'),
@@ -173,6 +167,7 @@ class Order(View):
                 post_code = data.get('post_code'),
                 phone_number = data.get('phone_number'),
                 city = data.get('city'),
+                adress = data.get('adress'),
                 country = data.get('country'),
                 description = data.get('descryption')
             )
