@@ -1,0 +1,49 @@
+#cart {
+    width: auto;
+    height: auto;
+    background-color: rgb(207, 206, 206);
+    padding-top: 5px;
+    padding-bottom: 5;
+}
+
+.cart_list {
+    background-color: rgb(221, 221, 221);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+.cart_item {
+    background-color: rgb(221, 221, 221);
+    width: auto;
+    height: 100px;
+    text-decoration: black;
+}
+
+.image {
+    padding: 15px;
+    background-color: rgb(221, 221, 221);
+    float: left;
+}
+
+.image img {
+    width: 70px;
+    height: auto;
+}
+
+.table_th {
+    width: 550px;
+}
+
+#total_price {
+    width: auto;
+    text-align: right;
+    padding: 30px;
+}
+
+#form_order {
+    padding: 35px;
+    text-align: right;
+}
